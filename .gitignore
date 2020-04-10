@@ -5,10 +5,10 @@
 /out/
 # Log file
 *.log
-
+*.properties
 # BlueJ files
 *.ctxt
-
+.gitignore
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
