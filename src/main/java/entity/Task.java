@@ -1,15 +1,17 @@
-import org.joda.time.LocalDateTime;
+package entity;
 
-public class Task {
+import java.io.Serializable;
+
+public class Task implements Serializable{
     private String title;
 
     private String description;
-    private LocalDateTime creationDate;
+   // private LocalDateTime creationDate;
 
     public Task(String title, String description){ //String deadline) {
         this.title = title;
         this.description = description;
-        this.creationDate = LocalDateTime.now();
+       //this.creationDate = LocalDateTime.now();
     }
 
     public String getTitle() {
@@ -26,5 +28,13 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
