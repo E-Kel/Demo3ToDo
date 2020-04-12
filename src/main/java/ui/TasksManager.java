@@ -29,7 +29,7 @@ public class TasksManager {
     private void chooseAction(char input) {
         switch (input) {
             case ('c'):
-                createTask();
+                createTask(askTitleAndDescription());
                 break;
             case ('r'):
                 removeTask();
@@ -52,6 +52,22 @@ public class TasksManager {
         }
     }
 
+
+    private String inputValidationTitleAndDescription() {
+        return " "; // todo: Stas
+    }
+
+    private String[] askTitleAndDescription() {
+//        String title = inputValidationTitleAndDescription();  todo: uncomment after inputValidationTitleAndDescription() is implemented
+//        String description =inputValidationTitleAndDescription();
+        System.out.println("Input title \n");
+        String title = scanConsoleInput(); //todo: remove after inputValidationTitleAndDescription() is implemented
+        System.out.println("Input description \n");
+        String description = scanConsoleInput();
+
+        return new String[]{title, description};
+    }
+
     private void showTask() {
         System.out.println(tasks);
         System.out.println("show");
@@ -61,9 +77,25 @@ public class TasksManager {
         System.out.println("remove");
     }
 
-    private void createTask() {
-        tasks.add(new Task("XUI", "ZALUPA"));
-        tasks.add(new Task("ZALUPA", "XUI"));
+    private void createTask(String title, String description) {
+        tasks.add(new Task(title,description));
+
+        tasks.add(new Task("number1", "This is number1"));
+        tasks.add(new Task("number2", "This is number2"));
+        
+        serializeTasks(tasks);
+        System.out.println("create");
+    }
+
+    private void createTask(String[] titleAndDescription) {
+        String title = titleAndDescription[0];
+        String description = titleAndDescription[1];
+
+        tasks.add(new Task(title,description));
+
+//        tasks.add(new Task("number1", "This is number1"));
+//        tasks.add(new Task("number2", "This is number2"));
+
         serializeTasks(tasks);
         System.out.println("create");
     }
@@ -72,6 +104,8 @@ public class TasksManager {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
+
+
 
 
     private static void serializeTasks(List<Task> tasks) {
