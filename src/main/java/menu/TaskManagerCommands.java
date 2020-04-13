@@ -18,7 +18,8 @@ public class TaskManagerCommands {
 
     public void removeTask() {
 //need validate input data
-        String input = scanConsoleInput("Which task's number do you wont to remove");
+        System.out.println("Which task's number do you wont to remove");
+        String input = scanConsoleInput();
         int indexRemoveTask = Integer.parseInt(input) - 1;
         tasks.remove(indexRemoveTask);
         WriterTasks.serializeTasks(tasks);
@@ -27,14 +28,17 @@ public class TaskManagerCommands {
     }
 
     public void createTask() {
-        tasks.add(new Task("EXAMPLE", "to do"));
-        tasks.add(new Task(scanConsoleInput("Task title:"), scanConsoleInput("Task description:")));
+        System.out.println("Task title:");
+        String title = scanConsoleInput();
+        System.out.println("Task description:");
+        String description = scanConsoleInput();
+
+        tasks.add(new Task(title, description));
         WriterTasks.serializeTasks(tasks);
         System.out.println("create");
     }
 
-    public static String scanConsoleInput(String title) {
-        System.out.println(title);
+    public static String scanConsoleInput() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }

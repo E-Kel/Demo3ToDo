@@ -11,7 +11,8 @@ public class TasksManager {
         String input;
         do {
             do {
-                input = scanConsoleInput("What do you want to do?(You can input \"h\" for help) ");
+                System.out.println("What do you want to do?(You can input \"h\" for help) ");
+                input = scanConsoleInput();
             } while (input.length() == 0);
 
             chooseAction(input.charAt(0));
