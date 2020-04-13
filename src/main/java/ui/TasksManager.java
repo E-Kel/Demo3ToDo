@@ -6,12 +6,13 @@ import entity.Task;
 
 import java.io.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class TasksManager {
     private static LocalDateTime localDateTime = LocalDateTime.now();
+    private static String fileName;
     public List<Task> tasks = new ArrayList<>();
-
 
     public void menu() {
         System.out.println("Hello, dear User!");
@@ -53,6 +54,7 @@ public class TasksManager {
     }
 
     private void showTask() {
+        tasks = deserializeTasks();
         System.out.println(tasks);
         System.out.println("show");
     }
@@ -62,8 +64,8 @@ public class TasksManager {
     }
 
     private void createTask() {
-        tasks.add(new Task("XUI", "ZALUPA"));
-        tasks.add(new Task("ZALUPA", "XUI"));
+        tasks.add(new Task("EXAMPLE", "to do"));
+        tasks.add(new Task("to do", "EXAMPLE"));
         serializeTasks(tasks);
         System.out.println("create");
     }
@@ -75,31 +77,17 @@ public class TasksManager {
 
 
     private static void serializeTasks(List<Task> tasks) {
-        System.out.println("Enter file name");
-        //logger message about enter file name
-        String fileName = scanConsoleInput();
-
-        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(localDateTime.toString()
-                + "-"
-                + fileName
-                + ".out"))){
-            tasks.forEach(task -> {
-                try {
-                    out.writeObject(task);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+        setFileName();
+        File file = createNewFile(fileName);
+        assert file != null;
+        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))){
+            out.writeObject(tasks);
         }
         catch (FileNotFoundException e){
-            new File(Constants.PATH, localDateTime.toString()
-                    + "-"
-                    + fileName
-                    + ".out");
+            createNewFile(fileName);
             //log error message
         }
         catch (IOException e){
-
             //log error message
         }
     }
@@ -108,20 +96,53 @@ public class TasksManager {
         File file = new File(Constants.PATH);
         File[] files = file.listFiles();
         assert files != null;
-        File temp = (File) Arrays.stream(files).map(File::lastModified);
-        String serializedFile =  temp.getName();
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(serializedFile + ".out"))){
-            return (ArrayList)in.readObject();
+        File temp = getLastModifiedFile(files);
+
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(temp))){
+            return (ArrayList) in.readObject();
         }
         catch (FileNotFoundException e){
+            if (fileName == null) {
+                setFileName();
+            }
+            createNewFile(fileName);
             //log error message
         }
         catch (IOException e){
-
+            e.printStackTrace();
             //log error message
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static File createNewFile(String fileName){
+        File file = new File(Constants.PATH);
+        if(!file.isDirectory()) {
+            file.mkdir();
+        }
+        file = new File( Constants.PATH + localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE) +
+                "," + localDateTime.getHour() + "-" + localDateTime.getMinute() + "," + fileName + ".bin");
+        try {
+            file.createNewFile();
+            return file;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static File getLastModifiedFile(File[] files){
+        if(files.length > 0){
+            Arrays.sort(files, Comparator.comparingLong(File::lastModified));
+        }
+        return files[files.length - 1];
+    }
+
+    private static void setFileName(){
+        System.out.println("Enter file name");
+        //logger message about enter file name
+        fileName = scanConsoleInput();
     }
 }
