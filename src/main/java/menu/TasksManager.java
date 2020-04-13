@@ -1,17 +1,10 @@
-package ui;
+package menu;
 
-import entity.Task;
-
-
-import commands.TaskManagerCommands;
-import java.time.LocalDateTime;
-import java.util.*;
+import static menu.TaskManagerCommands.scanConsoleInput;
 
 public class TasksManager {
-    private static LocalDateTime localDateTime = LocalDateTime.now();
-    private static String fileName;
-    public List<Task> tasks = new ArrayList<>();
-    TaskManagerCommands command = new TaskManagerCommands();
+    private TaskManagerCommands tasksManager = new TaskManagerCommands();
+
 
     public void menu() {
         System.out.println("Hello, dear User!");
@@ -19,7 +12,7 @@ public class TasksManager {
         do {
             do {
                 System.out.println("What do you want to do?(You can input \"h\" for help) ");
-                input = TaskManagerCommands.scanConsoleInput();
+                input = scanConsoleInput();
             } while (input.length() == 0);
 
             chooseAction(input.charAt(0));
@@ -29,10 +22,10 @@ public class TasksManager {
     private void chooseAction(char input) {
         switch (input) {
             case ('c'):
-                command.createTask();
+                tasksManager.createTask();
                 break;
             case ('r'):
-                command.removeTask();
+                tasksManager.removeTask();
                 break;
             case ('h'):
                 System.out.println("Operations available to you: \n" +
@@ -42,7 +35,7 @@ public class TasksManager {
                         "q - quit;");
                 break;
             case ('s'):
-                command.showTask();
+                tasksManager.showTask();
                 break;
             case ('q'):
                 System.exit(0);
@@ -51,6 +44,4 @@ public class TasksManager {
                 System.out.println("Wrong command! ");
         }
     }
-
-
 }
