@@ -32,9 +32,6 @@ public class Task implements Serializable{
 
     @Override
     public String toString() {
-        return "Task{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return title+"\n"+description+"\n----------";
     }
 }
