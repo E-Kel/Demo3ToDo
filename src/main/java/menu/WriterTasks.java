@@ -13,7 +13,7 @@ import org.apache.logging.log4j.*;
 
 public class WriterTasks {
     private static String fileName;
-    static final Logger logger = LogManager.getRootLogger();
+    private static final Logger logger = LogManager.getRootLogger();
 
     public static void serializeTasks(List<Task> tasks) {
         File file = rename(getFile());
@@ -34,14 +34,13 @@ public class WriterTasks {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(Objects.requireNonNull(getFile())))) {
             return (ArrayList) in.readObject();
         } catch (FileNotFoundException e) {
-            logger.error("File not found", e);
+            logger.error("File not found");
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error("Something wrong with file", e);
+            logger.error("Something wrong with file");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            logger.error("Class not found", e);
-
+            logger.error("Class not found");
         }
         return null;
     }
@@ -52,7 +51,7 @@ public class WriterTasks {
         try {
             file.createNewFile();
         } catch (IOException e) {
-            logger.error("File can't be created", e);
+            logger.error("File can't be created");
         }
         return file;
     }
@@ -71,7 +70,6 @@ public class WriterTasks {
             return getAllFilesInFolder()[0];
         }
     }
-
 
     private static File rename(File file) {
         setFileName();

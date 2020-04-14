@@ -5,7 +5,7 @@ import org.apache.logging.log4j.*;
 import static menu.TaskManagerCommands.scanConsoleInput;
 
 public class TasksManager {
-    static final Logger logger = LogManager.getRootLogger();
+    private static final Logger logger = LogManager.getRootLogger();
     private TaskManagerCommands tasksManager = new TaskManagerCommands();
 
     public void menu() {
@@ -16,7 +16,6 @@ public class TasksManager {
                 logger.info("What do you want to do?(You can input \"h\" for help) ");
                 input = scanConsoleInput();
             } while (input.length() == 0);
-
             chooseAction(input.charAt(0));
         } while (input.charAt(0) != 'q');
     }

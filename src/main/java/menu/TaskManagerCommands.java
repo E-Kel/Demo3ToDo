@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TaskManagerCommands {
-    static final Logger logger = LogManager.getRootLogger();
+    private static final Logger logger = LogManager.getRootLogger();
     private List<Task> tasks = new ArrayList<>();
 
     public void showTask() {
@@ -25,17 +25,14 @@ public class TaskManagerCommands {
         int indexRemoveTask = Integer.parseInt(input) - 1;
         tasks.remove(indexRemoveTask);
         WriterTasks.serializeTasks(tasks);
-
         logger.info("remove");
     }
 
     public void createTask() {
         logger.info("Task title:");
         String title = scanConsoleInput();
-
         logger.info("Task description:");
         String description = scanConsoleInput();
-
         tasks.add(new Task(title, description));
         WriterTasks.serializeTasks(tasks);
         logger.info("create");
