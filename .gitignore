@@ -8,7 +8,8 @@
 *.properties
 # BlueJ files
 *.ctxt
-
+#Created files
+*.bin
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 

@@ -9,14 +9,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class WriterTasks {
-
     private static String fileName;
+
     public static void serializeTasks(List<Task> tasks)  {
         File file = rename(getFile());
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
             out.writeObject(tasks);
         } catch (FileNotFoundException e) {
-            createNewFile();
             //log error message
         } catch (IOException e) {
             //log error message
@@ -24,13 +23,13 @@ public class WriterTasks {
     }
 
     public static List<Task> deserializeTasks()  {
+        if (!verifyFileExists()) {
+            createNewFile();
+        }
+
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(Objects.requireNonNull(getFile())))) {
             return (ArrayList) in.readObject();
         } catch (FileNotFoundException e) {
-            if (fileName == null) {
-                setFileName();
-            }
-            createNewFile();
             //log error message
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,16 +59,10 @@ public class WriterTasks {
     }
 
     private static File getFile()  {
-        File file = new File(Constants.PATH);
-        if (!file.isDirectory()) {
-            file.mkdir();
-        }
-        File[] files = file.listFiles();
-        assert files != null;
-        if (files.length == 0) {
+        if (!verifyFileExists()) {
             return createNewFile();
         } else {
-            return files[0];
+            return getAllFilesInFolder()[0];
         }
     }
 
@@ -80,5 +73,17 @@ public class WriterTasks {
         file.renameTo(newFile);
         file.delete();
         return newFile;
+    }
+
+    private static boolean verifyFileExists(){
+        return getAllFilesInFolder().length > 0;
+    }
+
+    private static File[] getAllFilesInFolder(){
+        File file = new File(Constants.PATH);
+        if (!file.isDirectory()) {
+            file.mkdir();
+        }
+        return file.listFiles();
     }
 }
