@@ -5,6 +5,7 @@ import entity.Task;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class TaskManagerCommands {
     private List<Task> tasks = new ArrayList<>();
@@ -16,17 +17,23 @@ public class TaskManagerCommands {
         System.out.println("show");
     }
 
+    private Pattern onlyNumbers = Pattern.compile("[0-9]");
     public void removeTask() {
-//need validate input data
-        System.out.println("Which task's number do you wont to remove");
+        System.out.println("Which task's number do you want to remove");
         String input = scanConsoleInput();
-        int indexRemoveTask = Integer.parseInt(input) - 1;
-        tasks.remove(indexRemoveTask);
-        WriterTasks.serializeTasks(tasks);
-
-        System.out.println("remove");
+        if (input.matches(String.valueOf(onlyNumbers))){
+            int indexRemoveTask = Integer.parseInt(input) - 1;
+            try {
+                tasks.remove(indexRemoveTask);
+                WriterTasks.serializeTasks(tasks);
+                System.out.println("Successfully removed");
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a number");
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Please enter a correct number. You currently have " + tasks.size() + " tasks");
+            }
+        }else System.out.println("Please use numbers only");
     }
-
     public void createTask() {
         System.out.println("Task title:");
         String title = scanConsoleInput();
