@@ -13,16 +13,16 @@ import org.apache.logging.log4j.*;
 
 public class WriterTasks {
     private static String fileName;
-    static final Logger errorLogger = LogManager.getLogger(WriterTasks.class);
+    static final Logger logger = LogManager.getRootLogger();
 
     public static void serializeTasks(List<Task> tasks) {
         File file = rename(getFile());
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
             out.writeObject(tasks);
         } catch (FileNotFoundException e) {
-            errorLogger.error("File not found", e);
+            logger.error("File not found", e);
         } catch (IOException e) {
-            errorLogger.error("This is an error message", e);
+            logger.error("Something wrong with file", e);
         }
     }
 
@@ -34,13 +34,13 @@ public class WriterTasks {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(Objects.requireNonNull(getFile())))) {
             return (ArrayList) in.readObject();
         } catch (FileNotFoundException e) {
-            errorLogger.error("File not found", e);
+            logger.error("File not found", e);
         } catch (IOException e) {
             e.printStackTrace();
-            errorLogger.error("File ", e);
+            logger.error("Something wrong with file", e);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            errorLogger.error("Class not found", e);
+            logger.error("Class not found", e);
 
         }
         return null;
@@ -52,7 +52,7 @@ public class WriterTasks {
         try {
             file.createNewFile();
         } catch (IOException e) {
-            errorLogger.error("File can't be created", e);
+            logger.error("File can't be created", e);
         }
         return file;
     }
