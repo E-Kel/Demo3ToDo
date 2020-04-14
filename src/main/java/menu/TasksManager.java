@@ -1,17 +1,21 @@
 package menu;
 
+import org.apache.logging.log4j.*;
+
 import static menu.TaskManagerCommands.scanConsoleInput;
 
 public class TasksManager {
+    static final Logger infoLogger = LogManager.getLogger(TasksManager.class);
+
     private TaskManagerCommands tasksManager = new TaskManagerCommands();
 
-
     public void menu() {
-        System.out.println("Hello, dear User!");
+        infoLogger.error("Hello");
+        infoLogger.info("Hello, dear User!");
         String input;
         do {
             do {
-                System.out.println("What do you want to do?(You can input \"h\" for help) ");
+                infoLogger.info("What do you want to do?(You can input \"h\" for help) ");
                 input = scanConsoleInput();
             } while (input.length() == 0);
 
@@ -28,7 +32,7 @@ public class TasksManager {
                 tasksManager.removeTask();
                 break;
             case ('h'):
-                System.out.println("Operations available to you: \n" +
+                infoLogger.info("Operations available to you: \n" +
                         "c - create new entity.Task;\n" +
                         "s - show exist task;\n" +
                         "r - remove some task;\n" +
@@ -41,7 +45,7 @@ public class TasksManager {
                 System.exit(0);
                 break;
             default:
-                System.out.println("Wrong command! ");
+                infoLogger.info("Wrong command! ");
         }
     }
 }

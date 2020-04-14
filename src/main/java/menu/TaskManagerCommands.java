@@ -1,41 +1,43 @@
 package menu;
 
 import entity.Task;
-
+import org.apache.logging.log4j.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class TaskManagerCommands {
+    static final Logger infoLogger = LogManager.getLogger(TaskManagerCommands.class);
     private List<Task> tasks = new ArrayList<>();
 
     public void showTask() {
         tasks = WriterTasks.deserializeTasks();
-        tasks.forEach(task -> System.out.println("#" + (tasks.indexOf(task) + 1) +
+        tasks.forEach(task -> infoLogger.info("#" + (tasks.indexOf(task) + 1) +
                 "\n" + task));
-        System.out.println("show");
+        infoLogger.info("show");
     }
 
     public void removeTask() {
 //need validate input data
-        System.out.println("Which task's number do you wont to remove");
+        infoLogger.info("Which task's number do you wont to remove");
         String input = scanConsoleInput();
         int indexRemoveTask = Integer.parseInt(input) - 1;
         tasks.remove(indexRemoveTask);
         WriterTasks.serializeTasks(tasks);
 
-        System.out.println("remove");
+        infoLogger.info("remove");
     }
 
     public void createTask() {
-        System.out.println("Task title:");
+        infoLogger.info("Task title:");
         String title = scanConsoleInput();
-        System.out.println("Task description:");
+
+        infoLogger.info("Task description:");
         String description = scanConsoleInput();
 
         tasks.add(new Task(title, description));
         WriterTasks.serializeTasks(tasks);
-        System.out.println("create");
+        infoLogger.info("create");
     }
 
     public static String scanConsoleInput() {
