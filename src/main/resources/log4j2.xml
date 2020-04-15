@@ -18,6 +18,8 @@
                 <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
                 <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
                 <ThresholdFilter level="fatal" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+
+                <ThresholdFilter level="info" onMatch="DENY" onMismatch="DENY"/>
             </Filters>
         </File>
     </Appenders>
