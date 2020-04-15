@@ -13,7 +13,7 @@ public class TaskManagerCommands {
 
     public void showTask() {
         if (tasks.isEmpty()) {
-            logger.info("You haven't got exist tasks!Please create task!");
+            logger.info("You have no existing tasks! Please create task!");
         } else {
             tasks = WriterTasks.deserializeTasks();
             tasks.forEach(task -> logger.info("#" + (tasks.indexOf(task) + 1) +
@@ -24,7 +24,7 @@ public class TaskManagerCommands {
 
     public void removeTask() {
         if (tasks.isEmpty()) {
-            logger.info("You haven't got exist tasks!Please create task!");
+            logger.info("You have no existing tasks! Please create task!");
         } else {
             logger.info("Which task's number do you want to remove?");
             String input = scanConsoleInput();
