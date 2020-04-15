@@ -12,37 +12,41 @@ public class TasksManager {
         logger.info("Hello, dear User!");
         String input;
         do {
-            do {
-                logger.info("What do you want to do?(You can input \"h\" for help) ");
-                input = scanConsoleInput();
-            } while (input.length() == 0);
-            chooseAction(input.charAt(0));
-        } while (input.charAt(0) != 'q');
+            logger.info("What do you want to do?(You can input \"h\" for help)");
+            input = scanConsoleInput();
+
+            if (!input.matches("[a-zA-Z]")) {
+                logger.info("Please enter latin letter!");
+            } else {
+                chooseAction(input);
+            }
+        } while (!input.equals("q"));
     }
 
-    private void chooseAction(char input) {
+    private void chooseAction(String input) {
         switch (input) {
-            case ('c'):
+            case ("c"):
                 tasksManager.createTask();
                 break;
-            case ('r'):
+            case ("r"):
                 tasksManager.removeTask();
                 break;
-            case ('h'):
+            case ("h"):
                 logger.info("Operations available to you: \n" +
-                        "c - create new entity.Task;\n" +
+                        "c - create new task;\n" +
                         "s - show exist task;\n" +
                         "r - remove some task;\n" +
+                        "h - help;\n" +
                         "q - quit;");
                 break;
-            case ('s'):
+            case ("s"):
                 tasksManager.showTask();
                 break;
-            case ('q'):
+            case ("q"):
                 System.exit(0);
                 break;
             default:
-                logger.info("Wrong command! ");
+                logger.info("Wrong command!(You can input \"h\" for help)");
         }
     }
 }
