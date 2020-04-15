@@ -18,7 +18,7 @@ public class TaskManagerCommands {
             tasks = WriterTasks.deserializeTasks();
             tasks.forEach(task -> logger.info("#" + (tasks.indexOf(task) + 1) +
                     "\n" + task));
-            logger.info("END");
+            logger.info("End of tasks");
         }
     }
 
