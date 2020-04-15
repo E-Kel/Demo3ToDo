@@ -46,7 +46,7 @@ public class TasksManager {
                 System.exit(0);
                 break;
             default:
-                logger.info("It's not action command!(You can input \"h\" for help)");
+                logger.info("It's not the action command! (You can input \"h\" for help)");
         }
     }
 }

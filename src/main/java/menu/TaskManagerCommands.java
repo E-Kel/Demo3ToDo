@@ -13,7 +13,7 @@ public class TaskManagerCommands {
 
     public void showTask() {
         if (tasks.isEmpty()) {
-            logger.info("You have no existing tasks! Please create task!");
+            logger.info("You have no existing tasks! Please create a task!");
         } else {
             tasks = WriterTasks.deserializeTasks();
             tasks.forEach(task -> logger.info("#" + (tasks.indexOf(task) + 1) +
@@ -24,9 +24,9 @@ public class TaskManagerCommands {
 
     public void removeTask() {
         if (tasks.isEmpty()) {
-            logger.info("You have no existing tasks! Please create task!");
+            logger.info("You have no existing tasks! Please create a task!");
         } else {
-            logger.info("Which task's number do you want to remove?");
+            logger.info("Which task would you like to remove? Please enter a task's number: ");
             String input = scanConsoleInput();
 
             if (!input.matches("[1-9]+")) {
@@ -36,13 +36,13 @@ public class TaskManagerCommands {
 
                 if (indexRemoveTask > tasks.size() - 1) {
                     logger.info("Task " + "#" + input + " doesn't exist. " +
-                            "Please enter number " +
+                            "Please a enter number " +
                             ((tasks.size() > 1) ? "from 1 to " + tasks.size() : "1") +
                             "!");
                 } else {
                     tasks.remove(indexRemoveTask);
                     WriterTasks.serializeTasks(tasks);
-                    logger.info("Task was removed");
+                    logger.info("Task has been removed");
                 }
             }
         }
@@ -56,7 +56,7 @@ public class TaskManagerCommands {
 
         tasks.add(new Task(title, description));
         WriterTasks.serializeTasks(tasks);
-        logger.info("Task was created");
+        logger.info("Task has been created");
     }
 
     public static String scanConsoleInput() {
