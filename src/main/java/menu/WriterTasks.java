@@ -8,21 +8,25 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import org.apache.logging.log4j.*;
+
+
 public class WriterTasks {
     private static String fileName;
+    private static final Logger logger = LogManager.getRootLogger();
 
-    public static void serializeTasks(List<Task> tasks)  {
+    public static void serializeTasks(List<Task> tasks) {
         File file = rename(getFile());
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
             out.writeObject(tasks);
         } catch (FileNotFoundException e) {
-            //log error message
+            logger.error("File not found", e);
         } catch (IOException e) {
-            //log error message
+            logger.error("Something wrong with file", e);
         }
     }
 
-    public static List<Task> deserializeTasks()  {
+    public static List<Task> deserializeTasks() {
         if (!verifyFileExists()) {
             createNewFile();
         }
@@ -30,12 +34,13 @@ public class WriterTasks {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(Objects.requireNonNull(getFile())))) {
             return (ArrayList) in.readObject();
         } catch (FileNotFoundException e) {
-            //log error message
+            logger.error("File not found");
         } catch (IOException e) {
             e.printStackTrace();
-            //log error message
+            logger.error("Something wrong with file");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            logger.error("Class not found");
         }
         return null;
     }
@@ -46,7 +51,7 @@ public class WriterTasks {
         try {
             file.createNewFile();
         } catch (IOException e) {
-            //log
+            logger.error("File can't be created");
         }
         return file;
     }
@@ -58,14 +63,13 @@ public class WriterTasks {
                 "-" + localDateTime.getSecond() + "," + Constants.FILE_NAME + ".bin";
     }
 
-    private static File getFile()  {
+    private static File getFile() {
         if (!verifyFileExists()) {
             return createNewFile();
         } else {
             return getAllFilesInFolder()[0];
         }
     }
-
 
     private static File rename(File file) {
         setFileName();
@@ -75,11 +79,11 @@ public class WriterTasks {
         return newFile;
     }
 
-    private static boolean verifyFileExists(){
+    private static boolean verifyFileExists() {
         return getAllFilesInFolder().length > 0;
     }
 
-    private static File[] getAllFilesInFolder(){
+    private static File[] getAllFilesInFolder() {
         File file = new File(Constants.PATH);
         if (!file.isDirectory()) {
             file.mkdir();
