@@ -12,7 +12,7 @@ public class TasksManager {
         logger.info("Hello, dear User!");
         String input;
         do {
-            logger.info("What do you want to do?(You can input \"h\" for help)");
+            logger.info("Please enter symbol of action. (You can input \"h\" for help)");
             input = scanConsoleInput();
 
             if (!input.matches("[a-zA-Z]")) {
@@ -46,7 +46,7 @@ public class TasksManager {
                 System.exit(0);
                 break;
             default:
-                logger.info("Wrong command!(You can input \"h\" for help)");
+                logger.info("It's not the action command! Please try again.(You can input \"h\" for help)");
         }
     }
 }
